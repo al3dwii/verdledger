@@ -18,3 +18,4 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install
       - run: pnpm -F backend test -- --run
+      - run: pnpm -F frontend test -- --reporter=line
