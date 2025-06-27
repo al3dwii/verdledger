@@ -1,0 +1,19 @@
+name: VerdLedger IaC Advisor
+description: Comment cost & CO\u2082 diff on each Terraform plan
+inputs:
+  api-url:
+    description: VerdLedger API base
+    required: true
+    default: https://api.verdledger.dev
+  api-key:
+    description: VerdLedger API key (created in dashboard)
+    required: true
+  plan-json:
+    description: Path to terraform show -json output
+    required: true
+runs:
+  using: node20
+  main: dist/index.js
+branding:
+  icon: cloud
+  color: green
