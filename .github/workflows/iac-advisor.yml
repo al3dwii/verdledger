@@ -1,0 +1,16 @@
+name: IaC Advisor
+on: [pull_request]
+jobs:
+  advisor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint Terraform
+        run: |
+          echo "Linting Terraform..."
+          # placeholder for terraform lint
+      - name: Suggest greener alternatives
+        run: |
+          echo "Compute savings..."
+          echo "kWh saved: 0"
+          echo "CO2 saved: 0"
