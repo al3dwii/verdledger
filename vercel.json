@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "env": {
+    "SUPABASE_URL": "@supabase-url",
+    "SUPABASE_SERVICE_ROLE": "@supabase-service-role"
+  },
+  "routes": [
+    { "src": "/(.*)", "dest": "backend/src/api/index.ts" }
+  ]
+}

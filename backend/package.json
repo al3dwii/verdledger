@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/api/index.js",
+  "scripts": {
+    "gen:db": "supabase gen types typescript --project-id local > src/db-types.ts",
+    "dev": "tsup-node --watch src/api/index.ts",
+    "start": "node dist/api/index.js",
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cors": "^8.2.0",
+    "fastify": "^4.22.2",
+    "fastify-sensible": "^5.10.2",
+    "@supabase/supabase-js": "^2.39.5",
+    "zod": "^3.23.6"
+  },
+  "devDependencies": {
+    "tsup": "^7.2.0",
+    "vitest": "^1.1.0",
+    "@types/node": "^20.10.5"
+  }
+}
