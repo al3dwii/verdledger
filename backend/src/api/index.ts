@@ -5,6 +5,10 @@ import { skusRoute } from './routes/skus';
 import { eventsRoute } from './routes/events';
 import { summaryRoute } from './routes/summary';
 import type { Database } from '../db-types';
+import sensible from '@fastify/sensible';
+// 1️⃣  first lines – run immediately
+import * as dotenv from 'dotenv';
+dotenv.config();      
 
 const sb = createClient<Database>(
   process.env.SUPABASE_URL!,
@@ -14,6 +18,7 @@ const sb = createClient<Database>(
 export const buildServer = () => {
   const app = Fastify({ logger: true });
   app.register(cors, { origin: '*' });
+  app.register(sensible);    
 
   app.get('/health', () => ({ ok: true }));
 
