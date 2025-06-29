@@ -70,6 +70,7 @@ playwright-report/
 # Compiled output (if you have a backend package)                            #
 ###############################################################################
 dist/
+!iac-advisor-action/dist/index.js
 build/
 *.tsbuildinfo
 
