@@ -7,8 +7,8 @@
     "dev": "tsup-node src/api/index.ts --watch --onSuccess \"node dist/index.js\"",
     "build": "tsup src/api/index.ts",
     "start": "node dist/index.js",
-    "gen:db": "supabase gen types typescript --project-id local > src/db-types.ts",
-    "test": "vitest"
+    "test": "vitest",
+     "gen:db": "supabase gen types typescript --project-id local > src/db-types.ts"
   },
   "keywords": [],
   "author": "",

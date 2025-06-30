@@ -3,9 +3,10 @@ import cors from '@fastify/cors';
 import { createClient } from '@supabase/supabase-js';
 import { skusRoute } from './routes/skus';
 import { eventsRoute } from './routes/events';
-import { summaryRoute } from './routes/summary';
 import type { Database } from '../db-types';
 import sensible from '@fastify/sensible';
+import { summaryRoute } from './routes/summary';
+import { tokensRoute }  from './routes/tokens';
 // 1️⃣  first lines – run immediately
 import * as dotenv from 'dotenv';
 dotenv.config();      
@@ -25,6 +26,8 @@ export const buildServer = () => {
   app.register(skusRoute(sb), { prefix: '/v1/skus' });
   app.register(eventsRoute(sb), { prefix: '/v1/events' });
   app.register(summaryRoute(sb), { prefix: '/v1/summary' });
+  app.register(tokensRoute(sb),  { prefix: '/v1/tokens'   });
+
 
   return app;
 };

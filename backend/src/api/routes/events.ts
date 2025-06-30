@@ -1,9 +1,28 @@
 import { FastifyInstance } from 'fastify';
 import { z } from 'zod';
+// export const eventsRoute =
+//   (sb: any) => async (app: FastifyInstance) => {
+
+
 export const eventsRoute =
   (sb: any) => async (app: FastifyInstance) => {
+ // ① list events (public, read-only, org filter)
+ app.get('/', async (req, res) => {
+   const { org, limit = '25', offset = '0' } = req.query as Record<string, string>;
+    if (!org) return res.badRequest('org required');
 
-  const bodySchema = z.array(z.object({
+   const { data, error } = await sb
+     .from('savings_event')
+     .select('*')
+     .eq('org_id', Number(org))
+     .order('ts', { ascending: false })
+     .range(Number(offset), Number(offset) + Number(limit) - 1);
+
+   if (error) return res.internalServerError(error);
+   res.send(data);
+ });
+
+     const bodySchema = z.array(z.object({
     cloud: z.string(), region: z.string(), sku: z.string(),
     kwh: z.number(), usd: z.number(), kg: z.number(),
     note: z.string().optional()
