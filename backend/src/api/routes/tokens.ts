@@ -19,6 +19,6 @@ export const tokensRoute =
     if (error) return res.internalServerError(error);
 
     const token = sign({ key: secret });
-    res.send({ token });
+    res.send({ secret: token });
   });
 };
