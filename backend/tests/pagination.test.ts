@@ -1,5 +1,6 @@
 import { buildServer } from '../src/api';
 import { describe, it, expect } from 'vitest';
+import { sign } from '../src/lib/jwt';
 
 const app = buildServer();
 
@@ -9,7 +10,7 @@ describe('event list pagination', () => {
     await app.inject({
       method: 'POST',
       url: '/v1/events',
-      headers: { Authorization: 'Bearer demo-secret' },
+      headers: { Authorization: `Bearer ${sign({ key: 'demo-secret' })}` },
       payload: Array.from({ length: 30 }).map(() => ({
         cloud: 'aws', region: 'eu-central-1', sku: 't3.micro',
         kwh: 0.1, usd: 0.01, kg: 0.07

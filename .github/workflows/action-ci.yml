@@ -24,3 +24,4 @@ jobs:
       - run: pnpm install
       - run: pnpm -F iac-advisor-action test          # Vitest
       - run: pnpm -F iac-advisor-action build         # bundles dist/index.js
+      - run: pnpm -F iac-advisor-action package       # packages action

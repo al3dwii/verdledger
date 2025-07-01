@@ -1,8 +1,9 @@
 import { buildServer } from '../src/api';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { sign } from '../src/lib/jwt';
 
 const app = buildServer();
-const token = 'demo-secret';
+const token = sign({ key: 'demo-secret' });
 
 beforeAll(async () => {
   await app.inject({
