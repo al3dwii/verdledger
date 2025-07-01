@@ -1,5 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { z } from 'zod';
+import { verify } from '../../lib/jwt';
 // export const eventsRoute =
 //   (sb: any) => async (app: FastifyInstance) => {
 
@@ -33,10 +34,17 @@ export const eventsRoute =
     if (!auth) return res.status(401).send({ error: 'missing token' });
 
     const token = auth.split(' ')[1]!;
+    let payload: { key: string };
+    try {
+      payload = verify<{ key: string }>(token);
+    } catch (err) {
+      return res.status(401).send({ error: 'bad token' });
+    }
+
     const { data: keyRow } = await sb
       .from('api_key')
       .select('org_id')
-      .eq('secret', token)
+      .eq('secret', payload.key)
       .single();
 
     if (!keyRow) return res.status(401).send({ error: 'bad token' });
