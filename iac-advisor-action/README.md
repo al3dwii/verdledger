@@ -10,6 +10,10 @@ Comment estimated cost and CO₂ savings on Terraform pull requests. When a PR i
     api-key: ${{ secrets.VERDLEDGER_KEY }}
 ```
 
+
+![example](../docs/demo.gif)
+
+
 Post the savings to your VerdLedger account:
 
 ```yaml
@@ -17,3 +21,4 @@ Post the savings to your VerdLedger account:
   if: contains(github.event.pull_request.labels.*.name, 'verdledger:apply')
   run: node iac-advisor-action/post-savings.js '\${{ steps.advise.outputs.suggestions }}' https://api.verdledger.dev \${{ secrets.VERDLEDGER_KEY }}
 ```
+
