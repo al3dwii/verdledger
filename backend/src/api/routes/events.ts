@@ -1,12 +1,16 @@
 import { FastifyInstance } from 'fastify';
 import { z } from 'zod';
+
 import { verify } from '../../lib/jwt';
+
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '../../db-types';
 // export const eventsRoute =
-//   (sb: any) => async (app: FastifyInstance) => {
+//   (sb: SupabaseClient<Database>) => async (app: FastifyInstance) => {
 
 
 export const eventsRoute =
-  (sb: any) => async (app: FastifyInstance) => {
+  (sb: SupabaseClient<Database>) => async (app: FastifyInstance) => {
  // ① list events (public, read-only, org filter)
  app.get('/', async (req, res) => {
    const { org, limit = '25', offset = '0' } = req.query as Record<string, string>;

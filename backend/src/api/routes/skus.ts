@@ -1,6 +1,8 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '../../db-types';
 export const skusRoute =
-  (sb: any) => async (app: FastifyInstance, _opts: FastifyPluginOptions) => {
+  (sb: SupabaseClient<Database>) => async (app: FastifyInstance, _opts: FastifyPluginOptions) => {
 
   app.get('/', async (_req, res) => {
     const { data, error } = await sb
