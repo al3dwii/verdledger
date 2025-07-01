@@ -26,12 +26,20 @@ export default function ApiKeyBlock({ orgId }: { orgId: number }) {
         </button>
       ) : (
         <>
-          <pre className="bg-slate-900 text-white text-sm p-3 rounded mb-2">
-- uses: verdledger/iac-advisor-action@v0.1.0
+
+          <pre className="bg-slate-900 text-white text-sm p-3 rounded mb-2">{`- uses: verdledger/iac-advisor-action@v0.1.0
   with:
     api-url: https://api.verdledger.dev
-    api-key: {key}
+    api-key: ${key}`}</pre>
+
+          <pre className="bg-slate-900 text-white text-sm p-3 rounded mb-2">
+{`- uses: verdledger/iac-advisor-action@v0.1.0
+  with:
+    api-url: https://api.verdledger.dev
+    api-key: ${key}
+`}
           </pre>
+
           <p className="text-xs text-slate-600">
             Copy this into your <code>.github/workflows/*.yml</code> file.
           </p>

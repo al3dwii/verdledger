@@ -17,7 +17,7 @@ describe('POST /v1/tokens', () => {
 
     expect(a.statusCode).toBe(200);
     expect(b.statusCode).toBe(200);
-    expect(JSON.parse(a.payload).token)
-      .not.toBe(JSON.parse(b.payload).token);
+    expect(JSON.parse(a.payload).secret)
+      .not.toBe(JSON.parse(b.payload).secret);
   });
 });

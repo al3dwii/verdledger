@@ -52,3 +52,8 @@ pnpm --filter backend dev
 ```
 
 Then visit `http://localhost:4000/health` to verify the server is running.
+
+## Dashboard configuration
+
+The frontend reads `NEXT_PUBLIC_API_URL` from `.env.local` to know where to
+fetch data. In production this is `https://api.verdledger.dev`.
