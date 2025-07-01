@@ -4,11 +4,11 @@
   "description": "",
   "main": "dist/api/index.js",
   "scripts": {
-    "dev": "tsup-node src/api/index.ts --watch --onSuccess \"node dist/index.js\"",
     "build": "tsup src/api/index.ts",
     "start": "node dist/index.js",
     "test": "vitest",
-     "gen:db": "supabase gen types typescript --project-id local > src/db-types.ts"
+     "gen:db": "supabase gen types typescript --project-id local > src/db-types.ts",
+     "dev": "tsup-node src/api/index.ts --watch --onSuccess \"kill-port 4000 && node dist/index.js\""
   },
   "keywords": [],
   "author": "",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "@types/node": "^20.10.5",
     "tsup": "^7.2.0",
-    "vitest": "^1.1.0"
+    "vitest": "^1.1.0",
+    "kill-port": "^2.0.1" 
   }
 }

@@ -1,21 +1,55 @@
-name: Backend CI
+name: VerdLedger Full CI
+
 on:
   push:
     branches: [main]
   pull_request:
 
 jobs:
-  test:
+  full:
     runs-on: ubuntu-latest
+    services:
+      # Lightweight Postgres instead of full Supabase CLI
+      postgres:
+        image: supabase/postgres:15.1.0.29
+        ports: ["54322:5432"]
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v2
         with:
           version: 9
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: pnpm
+
       - run: pnpm install
-      - run: pnpm -F backend test -- --run
-      - run: pnpm -F frontend test -- --reporter=line
+
+      # ─── Backend tests (use the test DB) ───────────────────────────────
+      - name: Backend unit + integration tests
+        run: |
+          export SUPABASE_URL=http://localhost:54322
+          export SUPABASE_SERVICE_ROLE=ignore   # tests run with service role
+          pnpm -F backend test --run
+
+      # ─── Action unit tests & bundle ───────────────────────────────────
+      - run: pnpm -F iac-advisor-action test
+      - run: pnpm -F iac-advisor-action build
+
+      # ─── Backend smoke (build once, then start) ──────────────────────
+      - run: |
+          pnpm --filter backend build
+          node backend/dist/api/index.js &
+          PID=$!
+          ./scripts/smoke.sh http://localhost:4000
+          kill $PID

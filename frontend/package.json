@@ -1,5 +1,5 @@
 {
-  "name": "verd-frontend",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,7 +16,6 @@
     "swr": "2.2.0"
   },
   "devDependencies": {
-    "@playwright/test": "1.42.1",
     "@types/react": "19.1.8",
     "autoprefixer": "10.4.14",
     "postcss": "8.4.24",
