@@ -7,6 +7,7 @@ import type { Database } from '../db-types';
 import sensible from '@fastify/sensible';
 import { summaryRoute } from './routes/summary';
 import { tokensRoute }  from './routes/tokens';
+import { activeReposRoute } from './routes/active-repos';
 // 1️⃣  first lines – run immediately
 import * as dotenv from 'dotenv';
 dotenv.config();      
@@ -27,6 +28,7 @@ export const buildServer = () => {
   app.register(eventsRoute(sb), { prefix: '/v1/events' });
   app.register(summaryRoute(sb), { prefix: '/v1/summary' });
   app.register(tokensRoute(sb),  { prefix: '/v1/tokens'   });
+  app.register(activeReposRoute(sb), { prefix: '/v1/active-repos' });
 
 
   return app;

@@ -1,4 +1,4 @@
-import { fetchSummary } from '@/lib/verdledger';
+import { fetchSummary, fetchActiveRepos } from '@/lib/verdledger';
 import KpiTile     from '@/components/KpiTile';
 import LedgerTable from '@/components/LedgerTable.client';
 import ApiKeyBlock from '@/components/ApiKeyBlock.client';
@@ -17,21 +17,27 @@ export default async function Dashboard({
 
   /* --- DB summary ------------------------------------------------ */
   const summary = await fetchSummary(id);   // { total_kg, total_usd }
+  const active  = await fetchActiveRepos();
 
   /* --- render ---------------------------------------------------- */
   return (
     <main className="mx-auto max-w-6xl p-6 space-y-8">
       {/* KPI tiles */}
-      <section className="grid gap-4 sm:grid-cols-2">
+      <section className="grid gap-4 sm:grid-cols-3">
         <KpiTile
           label="CO₂ avoided"
           value={`${summary.total_kg.toFixed(2)} kg`}
-          testId="kpi-co2" 
+          testId="kpi-co2"
         />
         <KpiTile
           label="Money saved"
           value={`$${summary.total_usd.toFixed(2)}`}
           testId="kpi-money"
+        />
+        <KpiTile
+          label="Active repos"
+          value={String(active)}
+          testId="kpi-active"
         />
       </section>
 
