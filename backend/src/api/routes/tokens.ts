@@ -1,8 +1,10 @@
 import { randomUUID } from 'node:crypto';
 import { FastifyInstance } from 'fastify';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '../../db-types';
 
 export const tokensRoute =
-  (sb: any) => async (app: FastifyInstance) => {
+  (sb: SupabaseClient<Database>) => async (app: FastifyInstance) => {
 
   app.post('/', async (req, res) => {
     const { org } = req.body as { org?: number };
