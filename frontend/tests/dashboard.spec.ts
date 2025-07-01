@@ -36,4 +36,8 @@ test('dashboard shows totals', async ({ page, request }) => {
   // Money tile (unique test-id =kpi-money)
   await expect(page.getByTestId('kpi-money'))
     .toHaveText(/\$\d+\.\d{2}/);              // e.g. “$0.05”
+
+  // Active repos tile (unique test-id =kpi-active)
+  await expect(page.getByTestId('kpi-active'))
+    .toHaveText(/\d+/);
 });
