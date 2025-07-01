@@ -1,0 +1,35 @@
+name: full
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: supabase/postgres:15.1.0.29
+        ports: ['54322:5432']
+        env: { POSTGRES_PASSWORD: postgres }
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: pnpm }
+
+      - run: pnpm install
+
+      # ── backend unit tests
+      - run: pnpm -F backend test --run
+
+      # ── install browsers once
+      - run: pnpm exec playwright install --with-deps
+
+      # ── start servers & run E2E
+      - run: pnpm start &
+      - run: pnpm run test:e2e

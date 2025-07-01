@@ -6,11 +6,18 @@
   "directories": {
     "doc": "docs"
   },
-   "scripts": {
+
+  "scripts": {
     "dev:api": "pnpm --filter backend dev",
-    "dev:web": "pnpm --filter frontend dev",
-    "test:unit": "pnpm -r --parallel test -- --run",          
-    "test:e2e": "playwright install --with-deps && playwright test",
+    "dev:web": "pnpm --filter verd-frontend dev",
+    "start": "concurrently -k \"pnpm dev:api\" \"pnpm dev:web\"",
+
+    "test:unit": "pnpm -r --parallel test -- --run",
+    "test:e2e": "playwright install --with-deps && start-server-and-test start http://localhost:3000/org/1/dashboard \"playwright test\"",
+
+    "smoke:db": "psql -h localhost -p 54322 -U postgres -d postgres -f scripts/db-smoke.sql",
+    "perf:k6": "k6 run scripts/k6-load.js",
+
     "gen:db": "supabase gen types typescript --db-url \"postgresql://postgres:postgres@127.0.0.1:54322/postgres\" > backend/src/db-types.ts"
   },
   
