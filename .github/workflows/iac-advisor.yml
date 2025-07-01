@@ -1,16 +1,24 @@
 name: IaC Advisor
 on: [pull_request]
+
 jobs:
-  advisor:
+  advise:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Lint Terraform
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform init
+      - run: terraform plan -out=plan
+      - run: terraform show -json plan > plan.json
+      - id: advice
+        uses: verdledger/iac-advisor-action@v0.1.0
+        with:
+          plan-json: plan.json
+          api-key: ${{ secrets.VERDLEDGER_KEY }}
+      - name: Post savings
+        if: contains(github.event.pull_request.labels.*.name, 'verdledger:apply')
         run: |
-          echo "Linting Terraform..."
-          # placeholder for terraform lint
-      - name: Suggest greener alternatives
-        run: |
-          echo "Compute savings..."
-          echo "kWh saved: 0"
-          echo "CO2 saved: 0"
+          node iac-advisor-action/post-savings.js \
+            '${{ steps.advice.outputs.suggestions }}' \
+            https://api.verdledger.dev \
+            ${{ secrets.VERDLEDGER_KEY }}
