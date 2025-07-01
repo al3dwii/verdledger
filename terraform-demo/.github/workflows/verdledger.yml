@@ -1,0 +1,19 @@
+name: VerdLedger Demo
+on: [pull_request]
+
+jobs:
+  advisor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Terraform setup
+        run: echo "terraform init"
+      - name: Terraform plan
+        run: |
+          echo "{}" > plan.json
+          echo "terraform plan"
+      - uses: verdledger/iac-advisor-action@v0.1.0
+        with:
+          plan-json: plan.json
+          api-key: ${{ secrets.VERDLEDGER_KEY }}
+

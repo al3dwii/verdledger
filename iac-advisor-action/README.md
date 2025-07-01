@@ -8,3 +8,6 @@ Comment estimated cost and CO\u2082 savings on Terraform pull requests.
     plan-json: plan.json
     api-key: ${{ secrets.VERDLEDGER_KEY }}
 ```
+
+![example](../docs/demo.gif)
+

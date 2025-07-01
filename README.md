@@ -19,6 +19,10 @@ npx verdledger init
 ![init demo](docs/init.gif)
 
 
+### Action comment demo
+
+![PR comment](docs/demo.gif)
+
 ## Running the API locally
 
 ```bash
