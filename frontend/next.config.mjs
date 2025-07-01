@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 const nextConfig = {
   experimental: {
     // boolean form is gone in Next 15—wrap it in an object:
-    serverActions: { enabled: true }
+    serverActions: { enabled: false }
   },
 
   // Local proxy: /api/* → Fastify on :4000
