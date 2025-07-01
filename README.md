@@ -1,5 +1,6 @@
 # VerdLedger
 ![stars](https://img.shields.io/github/stars/verdledger/verdledger)
+![CI](https://github.com/verdledger/verdledger/actions/workflows/action-ci.yml/badge.svg)
 
 VerdLedger is a "Ledger-as-a-Service" platform for tracking carbon savings from infrastructure changes.
 
@@ -17,6 +18,26 @@ npx verdledger init
 ```
 
 ![init demo](docs/init.gif)
+
+### IaC Advisor GitHub Action
+
+Use this action to comment CO₂ and cost savings on Terraform pull requests.
+
+```yaml
+# .github/workflows/advisor.yml
+on: pull_request
+jobs:
+  advisor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: verdledger/iac-advisor-action@v0.1.0
+        with:
+          plan-json: plan.json
+          api-key: ${{ secrets.VERDLEDGER_KEY }}
+```
+
+![demo](docs/demo.gif)
 
 
 ### Action comment demo
