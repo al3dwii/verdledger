@@ -12,8 +12,8 @@ export function parsePlan(path: string): Resource[] {
 
   plan.resource_changes?.forEach((rc: any) => {
     if (rc.change.actions.includes('create')) {
-      const provReg = rc.address.split('.')[0];      // aws_instance
-      const [, provider] = provReg.split('_');
+      const provReg = rc.address.split('.')[0];
+      const provider = provReg.split('_')[0];
       resources.push({
         provider,
         region:  rc.change.after.availability_zone.replace(/[a-z]$/,''),

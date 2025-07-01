@@ -6,21 +6,17 @@
   "directories": {
     "doc": "docs"
   },
-
   "scripts": {
     "dev:api": "pnpm --filter backend dev",
-    "dev:web": "pnpm --filter verd-frontend dev",
+    "dev:web": "pnpm --filter frontend dev",
+    "prestart": "kill-port 3000 4000", 
     "start": "concurrently -k \"pnpm dev:api\" \"pnpm dev:web\"",
-
     "test:unit": "pnpm -r --parallel test -- --run",
     "test:e2e": "playwright install --with-deps && start-server-and-test start http://localhost:3000/org/1/dashboard \"playwright test\"",
-
-    "smoke:db": "psql -h localhost -p 54322 -U postgres -d postgres -f scripts/db-smoke.sql",
+    "smoke:db": "PGPASSWORD=postgres psql -h localhost -p 54322 -U postgres -d postgres -f scripts/db-smoke.sql",
     "perf:k6": "k6 run scripts/k6-load.js",
-
     "gen:db": "supabase gen types typescript --db-url \"postgresql://postgres:postgres@127.0.0.1:54322/postgres\" > backend/src/db-types.ts"
   },
-  
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -29,7 +25,9 @@
   },
   "packageManager": "pnpm@8.15.9+sha512.499434c9d8fdd1a2794ebf4552b3b25c0a633abcee5bb15e7b5de90f32f47b513aca98cd5cfd001c31f0db454bc3804edccd578501e4ca293a6816166bbd9f81",
   "devDependencies": {
-    "@playwright/test": "1.42.1"
+    "@playwright/test": "1.42.1",
+    "concurrently": "8.2.0",
+    "kill-port": "2.0.1",
+    "start-server-and-test": "2.0.0"
   }
 }
-
