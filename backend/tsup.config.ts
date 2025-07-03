@@ -1,10 +1,11 @@
+// backend/tsup.config.ts
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: { index: "src/api/index.ts" }, // dist/index.js
+  entry: { index: "src/api/index.ts" }, // ➜ dist/index.js
   format: ["cjs"],
-  sourcemap: false,
-  splitting: false,
   outDir: "dist",
-  clean: true
+  splitting: false,
+  clean: true,
+  dts: false            // no .d.ts = faster build
 });
