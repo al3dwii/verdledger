@@ -1,30 +1,20 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/api/index.js",
+  "name": "verdledger-api",
+  "private": true,
   "scripts": {
-    "build": "tsup src/api/index.ts",
-    "start": "node dist/index.js",
-    "test": "vitest",
-     "gen:db": "supabase gen types typescript --project-id local > src/db-types.ts",
-     "dev": "tsup-node src/api/index.ts --watch --onSuccess \"kill-port 4000 && node dist/index.js\""
+    "build":    "tsup src/api/index.ts",
+    "start":    "node dist/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@fastify/cors": "^8.2.0",
-    "@fastify/sensible": "^4",
+    "@fastify/sensible": "^4.23.6",
     "@supabase/supabase-js": "^2.39.5",
     "dotenv": "^17.0.0",
     "fastify": "^4.22.2",
     "zod": "^3.23.6"
   },
   "devDependencies": {
-    "@types/node": "^20.10.5",
     "tsup": "^7.2.0",
-    "vitest": "^1.1.0",
-    "kill-port": "^2.0.1" 
+    "@types/node": "^20.10.5"
   }
 }
