@@ -81,3 +81,4 @@ logs/
 *.log
 *.tgz
 *.lock-wip
+.vercel
