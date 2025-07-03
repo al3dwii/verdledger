@@ -1,9 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer components {
-  .btn-primary {
-    @apply rounded bg-emerald-600 px-3 py-1.5 text-white hover:bg-emerald-700;
-  }
-}
