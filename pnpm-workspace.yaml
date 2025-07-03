@@ -1,6 +1,0 @@
-packages:
-  - 'cli'
-  - 'frontend'
-  - 'server'
-  - 'backend'
-  - 'iac-advisor-action'
