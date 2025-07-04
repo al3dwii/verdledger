@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "echo 'no-op for Vercel",
     "start": "node dist/index.js",
     "dev:api": "pnpm --filter backend dev",
     "dev:web": "pnpm --filter frontend dev",
