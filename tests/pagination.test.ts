@@ -1,4 +1,6 @@
-import { buildServer } from '../src/api';
+// import { buildServer } from '../src/api';
+import { buildServer } from '../src/api/server';
+
 import { describe, it, expect } from 'vitest';
 import { sign } from '../src/lib/jwt';
 

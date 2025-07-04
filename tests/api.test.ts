@@ -1,4 +1,6 @@
-import { buildServer } from '../src/api';
+// import { buildServer } from '../src/api';
+import { buildServer } from '../src/api/server';
+
 import { describe, expect, it } from 'vitest';
 
 const app = buildServer();
