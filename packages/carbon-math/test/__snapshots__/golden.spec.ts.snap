@@ -1,0 +1,3 @@
+exports[`footprint maths matches golden snapshot 1`] = `{
+  "resourceCount": 1
+}`

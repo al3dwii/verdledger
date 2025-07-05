@@ -8,6 +8,7 @@
     "start": "tsx src/api/index.ts",
     "prestart": "kill-port 3000",
     "test": "vitest run",
+    "test:golden:update": "vitest -u",
     "test:unit": "vitest",
     "test:e2e": "playwright install --with-deps && start-server-and-test start http://localhost:3000 \"playwright test\"",
     "smoke:db": "PGPASSWORD=postgres psql -h localhost -p 54322 -U postgres -d postgres -f scripts/db-smoke.sql",

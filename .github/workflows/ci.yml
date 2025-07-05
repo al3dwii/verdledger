@@ -1,0 +1,41 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: supabase/postgres:15.1.0.29
+        ports: ['54322:5432']
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install
+      - name: Unit & golden tests
+        run: |
+          export SUPABASE_URL=http://localhost:54322
+          export SUPABASE_SERVICE_ROLE=ignore
+          pnpm test
+      - name: Trivy FS scan
+        uses: aquasecurity/trivy-action@v0.22.0
+        with:
+          scan-type: fs
+          severity: CRITICAL,HIGH
+          exit-code: 1
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0.15.5

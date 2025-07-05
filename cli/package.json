@@ -6,6 +6,15 @@
   "bin": {
     "verdledger": "dist/index.js"
   },
+  "pkg": {
+    "scripts": "dist/**/*.js",
+    "targets": [
+      "node18-linux-x64",
+      "node18-macos-x64",
+      "node18-win-x64"
+    ],
+    "outputPath": "dist-bin"
+  },
   "files": ["dist"],
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -20,6 +29,7 @@
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "pkg": "^5.8.1"
   }
 }
