@@ -27,7 +27,7 @@
     "zod": "^3.25.71"
   },
   "devDependencies": {
-    "@playwright/test": "1.42.1",
+    "@playwright/test": "1.53.2",
     "@types/node": "^20.9.2",
     "kill-port": "2.0.1",
     "start-server-and-test": "2.0.0",
