@@ -1,0 +1,22 @@
+project_name: verdledger
+builds:
+  - id: cli
+    builder: raw
+    binary: verdledger
+    main: ./cli/dist-bin
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+archives:
+  - id: default
+    format: tar.gz
+    files:
+      - none*
+brews:
+  - tap:
+      owner: verdledger
+      name: homebrew-tap
+    folder: Formula
+slsa_provenance:
+  enabled: true
+sbom:
+  enabled: true

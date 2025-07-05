@@ -1,0 +1,20 @@
+name: release
+on:
+  push:
+    tags: ["v*.*.*"]
+jobs:
+  goreleaser:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter cli run build
+      - run: pnpm --filter cli exec pkg .
+      - uses: goreleaser/goreleaser-action@v5
+        with:
+          version: latest
+          args: release --clean
