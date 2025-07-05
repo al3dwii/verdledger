@@ -1,0 +1,21 @@
+{
+    "config": {
+        "pulumi:tags": "{\"pulumi:template\":\"typescript\"}"
+    },
+    "steps": [
+        {
+            "op": "create",
+            "urn": "urn:pulumi:dev::sandbox::pulumi:pulumi:Stack::sandbox-dev",
+            "newState": {
+                "urn": "urn:pulumi:dev::sandbox::pulumi:pulumi:Stack::sandbox-dev",
+                "custom": false,
+                "type": "pulumi:pulumi:Stack"
+            },
+            "detailedDiff": null
+        }
+    ],
+    "duration": 1413369292,
+    "changeSummary": {
+        "create": 1
+    }
+}

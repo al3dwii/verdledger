@@ -1,0 +1,7 @@
+{
+  "info": { "name": "VerdLedger smoke", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
+  "item": [
+    { "name": "GET summary", "request": { "method": "GET", "url": "{{BASE}}/v1/summary?org=1" } },
+    { "name": "POST events", "request": { "method": "POST", "url": "{{BASE}}/v1/events", "body": { "mode": "raw", "raw": "[{\"cloud\":\"aws\",\"region\":\"eu\",\"sku\":\"t3.micro\",\"kwh\":0.1,\"usd\":0.01,\"kg\":0.07}]" } } }
+  ]
+}
