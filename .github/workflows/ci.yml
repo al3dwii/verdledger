@@ -32,7 +32,7 @@ jobs:
           export SUPABASE_SERVICE_ROLE=ignore
           pnpm test
       - name: Trivy FS scan
-        uses: aquasecurity/trivy-action@v0.22.0
+        uses: aquasecurity/trivy-action@0.32.0
         with:
           scan-type: fs
           severity: CRITICAL,HIGH
