@@ -8,13 +8,7 @@ jobs:
     permissions: {contents: write, packages: write}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
-        with: {go-version: '1.22'}
-      - uses: pnpm/action-setup@v2
-      - run: pnpm install --frozen-lockfile && pnpm build
       - uses: goreleaser/goreleaser-action@v5
-        with:
-          distribution: goreleaser
-          args: release --clean
+        with: { args: release --clean }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

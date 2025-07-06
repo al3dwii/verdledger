@@ -1,12 +1,15 @@
 {
-  "$schema": "https://turborepo.org/schema.json",
+  "$schema":"https://turborepo.org/schema.json",
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "outputs": [
+        "apps/**/dist/**",
+        "go/bin/**"
+      ],
+      "command": "go build -o go/bin/verdledger ./go/cmd/verdledger && pnpm --recursive run build"
     },
-    "dev":  { "cache": false },
-    "lint": { "outputs": [] },
-    "test": { "outputs": [] }
+    "test":  { "outputs": [] },
+    "lint":  { "outputs": [] }
   }
 }

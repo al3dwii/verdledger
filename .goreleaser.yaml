@@ -1,22 +1,18 @@
 project_name: verdledger
 builds:
   - id: cli
-    builder: raw
+    main: ./go/cmd/verdledger
     binary: verdledger
-    main: ./apps/cli/dist-bin
-    goos: [linux, darwin, windows]
+    goos:   [linux, darwin, windows]
     goarch: [amd64, arm64]
-archives:
-  - id: default
-    format: tar.gz
-    files:
-      - none*
-brews:
-  - tap:
-      owner: verdledger
-      name: homebrew-tap
-    folder: Formula
-slsa_provenance:
-  enabled: true
-sbom:
-  enabled: true
+    ldflags:
+      - -s -w
+dockers:
+  - image_templates:
+      - ghcr.io/verdledger/verdledger:{{ .Tag }}
+      - ghcr.io/verdledger/verdledger:latest
+    build_flag_templates:
+      - --build-arg=VERSION={{ .Version }}
+    dockerfile: Dockerfile
+checksum: { name_template: checksums.txt }
+sbom:     [ { artifact: binary } ]
