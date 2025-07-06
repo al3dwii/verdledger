@@ -3,6 +3,6 @@
   "version": "0.1.0",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsup --format esm,cjs"
+    "build": "tsup src/index.ts --format esm,cjs --dts"
   }
 }

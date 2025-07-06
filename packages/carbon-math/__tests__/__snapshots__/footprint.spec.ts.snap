@@ -1,3 +1,7 @@
-exports[`footprint maths matches golden snapshot 1`] = `{
-  "resourceCount": 1
-}`
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`footprint maths > matches golden snapshot 1`] = `
+{
+  "resourceCount": 1,
+}
+`;

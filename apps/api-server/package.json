@@ -4,7 +4,8 @@
   "main": "api/index.ts",
   "scripts": {
     "dev": "tsx api/index.ts",
-    "build": "tsup"
+    "build": "tsup api/index.ts"
+
   },
   "dependencies": {
     "@fastify/cors": "^11.0.1",

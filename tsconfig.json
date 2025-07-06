@@ -1,14 +1,39 @@
 {
   "compilerOptions": {
-    "target": "es2019",
+    /* Emit --------------------------------------------------------------- */
+    "target": "es2020",           // Node 18 baseline
     "module": "commonjs",
     "outDir": "dist",
+    "rootDir": ".",               // allow one build folder per package
+    "declaration": true,
+    "sourceMap": true,
+
+    /* Type-safety -------------------------------------------------------- */
     "strict": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
+
+    /* Resolution --------------------------------------------------------- */
+    "moduleResolution": "node",
+    "baseUrl": ".",               // enables the path aliases below
     "paths": {
-      "@/*": ["apps/*/src"],
-      "~/*": ["packages/*/src"]
+      /* apps — entry points */
+      "@/*":               ["apps/*/src"],
+
+      /* packages — shared libraries */
+      "@verdledger/core-models/*": ["packages/core-models/src/*"],
+      "@verdledger/carbon-math/*": ["packages/carbon-math/src/*"],
+      "@verdledger/db/*":          ["packages/supabase-db/src/*"],
+
+      /* generic tilde alias (optional) */
+      "~/*":               ["packages/*/src"]
     }
   },
-  "include": ["apps/**/*", "packages/**/*"]
+
+  /* Include every workspace folder */
+  "include": [
+    "apps/**/*",
+    "packages/**/*",
+    "scripts/**/*"
+  ]
 }

@@ -1,16 +1,23 @@
 {
+  "name": "verdledger",
+  "version": "0.0.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "packageManager": "pnpm@10.12.4",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "test": "vitest run"
   },
   "devDependencies": {
-    "turbo": "^3.0.0",
-    "tsup": "^8.0.0"
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.19.4",
+    "@types/prompts": "^2.4.9",
+    "tsup": "^8.0.0",
+    "turbo": "^2.5.4",
+    "vitest": "^1.5.1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.50.3"
   }
 }

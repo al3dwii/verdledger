@@ -1,5 +1,5 @@
 // import { buildServer } from '../src/api';
-import { buildServer } from '../apps/api-server/api/server';
+import { buildServer } from '../api/server';
 
 import { describe, it, expect } from 'vitest';
 
