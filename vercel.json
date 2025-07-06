@@ -1,10 +1,10 @@
 {
   "version": 2,
   "builds": [
-    { "src": "src/api/index.ts", "use": "@vercel/node" }
+    { "src": "apps/api-server/api/index.ts", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/v1/(.*)", "dest": "src/api/index.ts" },
-    { "src": "/health",  "dest": "src/api/index.ts" }
+    { "src": "/v1/(.*)", "dest": "apps/api-server/api/index.ts" },
+    { "src": "/health",  "dest": "apps/api-server/api/index.ts" }
   ]
 }

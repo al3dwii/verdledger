@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { FastifyInstance } from 'fastify';
 import { sign } from '../../lib/jwt';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Database } from '../../db-types';
+import type { Database } from '~/supabase-db/src/db-types';
 
 export const tokensRoute =
   (sb: SupabaseClient<Database>) => async (app: FastifyInstance) => {

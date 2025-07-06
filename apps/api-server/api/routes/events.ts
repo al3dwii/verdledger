@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { verify } from '../../lib/jwt';
 
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Database } from '../../db-types';
+import type { Database } from '~/supabase-db/src/db-types';
 // export const eventsRoute =
 //   (sb: SupabaseClient<Database>) => async (app: FastifyInstance) => {
 

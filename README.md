@@ -6,7 +6,7 @@ VerdLedger is a "Ledger-as-a-Service" platform for tracking carbon savings from 
 
 ```bash
 git clone https://github.com/verdledger/verdledger && cd verdledger
-supabase start && pnpm ws run gen:db && pnpm --filter backend dev
+supabase start && pnpm ws run gen:db && pnpm --filter ./apps/api-server dev
 ```
 
 This repository currently includes the database schema defined via Supabase. More features will be added over time including REST endpoints, a CLI, GitHub actions and a dashboard.
@@ -48,7 +48,7 @@ jobs:
 
 ```bash
 pnpm install
-pnpm --filter backend dev
+pnpm --filter ./apps/api-server dev
 ```
 
 Then visit `http://localhost:4000/health` to verify the server is running.

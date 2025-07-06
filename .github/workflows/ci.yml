@@ -26,6 +26,8 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install
+      - name: Build packages
+        run: pnpm turbo run build --filter='packages/*'
       - name: Unit & golden tests
         run: |
           export SUPABASE_URL=http://localhost:54322

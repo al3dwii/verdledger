@@ -2,7 +2,7 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: { index: "src/api/index.ts" }, // ➜ dist/index.js
+  entry: { index: "apps/api-server/api/index.ts" }, // ➜ dist/index.js
   format: ["cjs"],
   outDir: "dist",
   splitting: false,

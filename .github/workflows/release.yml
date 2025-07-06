@@ -12,8 +12,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter cli run build
-      - run: pnpm --filter cli exec pkg .
+      - run: pnpm --filter ./apps/cli run build
+      - run: pnpm --filter ./apps/cli exec pkg .
       - uses: goreleaser/goreleaser-action@v5
         with:
           version: latest
