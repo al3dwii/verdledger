@@ -3,7 +3,7 @@ builds:
   - id: cli
     builder: raw
     binary: verdledger
-    main: ./cli/dist-bin
+    main: ./apps/cli/dist-bin
     goos: [linux, darwin, windows]
     goarch: [amd64, arm64]
 archives:

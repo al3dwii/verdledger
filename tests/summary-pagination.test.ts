@@ -1,5 +1,5 @@
 // tests/summary-pagination.test.ts
-import { buildServer } from '../src/api/server';
+import { buildServer } from '../apps/api-server/api/server';
 import { expect, it } from 'vitest';
 
 it('paginates summary', async () => {

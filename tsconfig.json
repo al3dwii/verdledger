@@ -4,7 +4,11 @@
     "module": "commonjs",
     "outDir": "dist",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "@/*": ["apps/*/src"],
+      "~/*": ["packages/*/src"]
+    }
   },
-  "include": ["src/**/*"]
+  "include": ["apps/**/*", "packages/**/*"]
 }

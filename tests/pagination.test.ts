@@ -1,8 +1,8 @@
 // import { buildServer } from '../src/api';
-import { buildServer } from '../src/api/server';
+import { buildServer } from '../apps/api-server/api/server';
 
 import { describe, it, expect } from 'vitest';
-import { sign } from '../src/lib/jwt';
+import { sign } from '../apps/api-server/lib/jwt';
 
 const app = buildServer();
 

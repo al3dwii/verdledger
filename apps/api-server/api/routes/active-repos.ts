@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Database } from '../../db-types';
+import type { Database } from '~/supabase-db/src/db-types';
 
 export const activeReposRoute =
   (sb: SupabaseClient<Database>) => async (app: FastifyInstance) => {

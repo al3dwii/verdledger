@@ -39,7 +39,7 @@ export { buildServer };
 // import { summaryRoute } from './routes/summary';
 // import { tokensRoute } from './routes/tokens';
 // import { activeReposRoute } from './routes/active-repos';
-// import type { Database } from '../db-types';
+// import type { Database } from '~/supabase-db/src/db-types';
 // import * as dotenv from 'dotenv';
 // dotenv.config();
 
@@ -94,7 +94,7 @@ export { buildServer };
 // import { createClient } from '@supabase/supabase-js';
 // import { skusRoute } from './routes/skus';
 // import { eventsRoute } from './routes/events';
-// import type { Database } from '../db-types';
+// import type { Database } from '~/supabase-db/src/db-types';
 // import sensible from '@fastify/sensible';
 // import { summaryRoute } from './routes/summary';
 // import { tokensRoute }  from './routes/tokens';
