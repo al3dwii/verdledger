@@ -1,0 +1,20 @@
+project_name: verdledger
+builds:
+  - id: cli
+    main: ./cmd/verdledger
+    goarch: [amd64, arm64]
+    goos:   [linux, darwin, windows]
+    ldflags: -s -w
+dockers:
+  - image_templates:
+      - verdledger/verdledger:latest
+      - verdledger/verdledger:{{ .Tag }}
+    dockerfile: Dockerfile
+signs:
+  - artifacts: checksum
+checksum:
+  name_template: 'checksums.txt'
+release:
+  github:
+    owner: verdledger
+    name: verdledger

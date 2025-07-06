@@ -1,0 +1,23 @@
+name: sec-scan
+on: [pull_request]
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aquasecurity/trivy-action@0.20.0
+        with:
+          scan-type: fs
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+  sbom:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+          syft dir:. -o cyclonedx-json > sbom.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.json

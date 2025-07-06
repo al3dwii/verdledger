@@ -1,0 +1,10 @@
+[
+  {
+    "Cloud": "aws",
+    "Region": "us-east-1",
+    "Sku": "t3.micro",
+    "Kwh": 0.2,
+    "Usd": 0.02,
+    "Kg": 0.15
+  }
+]

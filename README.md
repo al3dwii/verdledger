@@ -1,8 +1,14 @@
 # VerdLedger
 ![stars](https://img.shields.io/github/stars/verdledger/verdledger)
 ![CI](https://github.com/verdledger/verdledger/actions/workflows/action-ci.yml/badge.svg)
+![release](https://github.com/verdledger/verdledger/actions/workflows/release.yml/badge.svg)
+![nightly](https://github.com/verdledger/verdledger/actions/workflows/refresh.yml/badge.svg)
+![sec-scan](https://github.com/verdledger/verdledger/actions/workflows/scan.yml/badge.svg)
+![docker](https://img.shields.io/docker/pulls/verdledger/verdledger)
+![version](https://img.shields.io/github/v/release/verdledger/verdledger)
 
 VerdLedger is a "Ledger-as-a-Service" platform for tracking carbon savings from infrastructure changes.
+See [docs/cli.md](docs/cli.md) for the Go-based CLI tool.
 
 ```bash
 git clone https://github.com/verdledger/verdledger && cd verdledger
