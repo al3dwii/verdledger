@@ -1,0 +1,17 @@
+name: nightly-sku-refresh
+on:
+  schedule: [{ cron: "0 2 * * *" }]
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - run: pnpm install --frozen-lockfile
+      - run: node scripts/refresh-data.ts
+      - name: create PR if diff
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(data): nightly SKU/grid refresh"
+          title: "Nightly data refresh"
+          branch:  chore/nightly-data-refresh
