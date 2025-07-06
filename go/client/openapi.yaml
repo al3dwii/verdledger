@@ -1,0 +1,72 @@
+openapi: 3.0.3
+info:
+  title: VerdLedger API
+  version: "0.1.0"
+paths:
+  /v1/events:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Event'
+      responses:
+        '200':
+          description: inserted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  inserted:
+                    type: integer
+  /v1/budgets:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BudgetFile'
+      responses:
+        '200':
+          description: check result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetCheck'
+components:
+  schemas:
+    Event:
+      type: object
+      properties:
+        cloud: {type: string}
+        region: {type: string}
+        sku: {type: string}
+        kwh: {type: number}
+        usd: {type: number}
+        kg: {type: number}
+        note: {type: string}
+    BudgetFile:
+      type: object
+      properties:
+        budgets:
+          type: array
+          items:
+            $ref: '#/components/schemas/BudgetSpec'
+    BudgetSpec:
+      type: object
+      properties:
+        cloud: {type: string}
+        region: {type: string}
+        sku: {type: string}
+        monthly_limit_kg: {type: number}
+        monthly_limit_usd: {type: number}
+    BudgetCheck:
+      type: object
+      properties:
+        exceeds:
+          type: boolean

@@ -1,20 +1,18 @@
 project_name: verdledger
 builds:
   - id: cli
-    main: ./cmd/verdledger
-    goarch: [amd64, arm64]
+    main: ./go/cmd/verdledger
+    binary: verdledger
     goos:   [linux, darwin, windows]
-    ldflags: -s -w
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w
 dockers:
   - image_templates:
-      - verdledger/verdledger:latest
-      - verdledger/verdledger:{{ .Tag }}
+      - ghcr.io/verdledger/verdledger:{{ .Tag }}
+      - ghcr.io/verdledger/verdledger:latest
+    build_flag_templates:
+      - --build-arg=VERSION={{ .Version }}
     dockerfile: Dockerfile
-signs:
-  - artifacts: checksum
-checksum:
-  name_template: 'checksums.txt'
-release:
-  github:
-    owner: verdledger
-    name: verdledger
+checksum: { name_template: checksums.txt }
+sbom:     [ { artifact: binary } ]
