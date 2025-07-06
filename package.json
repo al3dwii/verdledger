@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@10.12.4",
   "scripts": {
-    "build": "turbo run build",
+    "build": "cd go && go build -o ../go/bin/verdledger ./cmd/verdledger && cd .. && turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "test": "vitest run"
