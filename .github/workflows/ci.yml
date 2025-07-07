@@ -1,12 +1,14 @@
 name: ci
+
 on:
   push:
     branches: [main]
   pull_request:
 
 jobs:
-  test:
+  test-build-scan:
     runs-on: ubuntu-latest
+
     services:
       postgres:
         image: supabase/postgres:15.1.0.29
@@ -18,26 +20,59 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
+    env:                    # so Vitest can hit the local PG—even if tests just stub it
+      SUPABASE_URL:        http://localhost:54322
+      SUPABASE_SERVICE_ROLE: ignore
+      SUPABASE_ANON:        ignore
+
     steps:
+      # ────────────── checkout & tool-chains ──────────────
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
+
+      - name: ☑️  Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.24
+
+      - name: ☑️  Set up PNPM + Node
+        uses: pnpm/action-setup@v2
+        with: { version: 10 }
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
-      - run: pnpm install
-      - name: Build packages
-        run: pnpm turbo run build --filter='packages/*'
-      - name: Unit & golden tests
+
+      # ────────────── install deps ──────────────
+      - run: pnpm install --frozen-lockfile
+
+      # ────────────── build Go CLI ──────────────
+      - name: 🔨 Build VerdLedger CLI (Go)
         run: |
-          export SUPABASE_URL=http://localhost:54322
-          export SUPABASE_SERVICE_ROLE=ignore
-          pnpm test
-      - name: Trivy FS scan
+          cd go
+          go mod tidy               # make Go modules deterministic
+          go build -o ../go/bin/verdledger ./cmd/verdledger
+          cd ..
+
+      # ────────────── build every workspace pkg ───────────
+      - name: 🔨 Build TypeScript packages (Turbo)
+        run: pnpm turbo run build
+
+      # ────────────── unit & golden tests ──────────────
+      - name: ✅  Run Vitest suite
+        run: pnpm test
+
+      # ────────────── security scanning ────────────────
+      - name: 🔍 Trivy FS scan
         uses: aquasecurity/trivy-action@v0.22.0
         with:
           scan-type: fs
           severity: CRITICAL,HIGH
-          exit-code: 1
-      - name: Generate SBOM
+          exit-code: 1            # fail the job on any HIGH/CRITICAL vulns
+
+      # ────────────── SBOM (SPDX) ────────────────
+      - name: 📦  Generate SPDX SBOM
         uses: anchore/sbom-action@v0.15.5
+        with:
+          format: spdx-json
+          upload-artifact: false  # omit if you want it attached to the run

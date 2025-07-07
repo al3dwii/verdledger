@@ -7,7 +7,9 @@
     "build": "cd go && go build -o ../go/bin/verdledger ./cmd/verdledger && cd .. && turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:gold": "vitest run apps/api-server/__tests__/summary-golden.test.ts",
+    "golden:update": "curl -s 'http://localhost:80/v1/summary?org=1&limit=10' > testdata/summary.golden.json"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",

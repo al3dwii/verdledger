@@ -1,0 +1,10 @@
+# ---- build stage -----------------------------------------------------------
+FROM golang:1.24-alpine AS build
+WORKDIR /src
+COPY go ./go
+RUN cd go && go build -o /verdledger ./cmd/verdledger
+
+# ---- final image -----------------------------------------------------------
+FROM scratch
+COPY --from=build /verdledger /verdledger
+ENTRYPOINT ["/verdledger"]
