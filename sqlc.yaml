@@ -1,0 +1,13 @@
+version: "2"
+
+sql:
+  - engine: "postgresql"
+    schema:
+      - migrations
+    queries:
+      - internal/ledger/sql            # ← path to the placeholder file
+    gen:
+      go:
+        package: ledger
+        out: internal/ledger
+        emit_json_tags: true
