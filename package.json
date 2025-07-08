@@ -8,6 +8,7 @@
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "test": "vitest run",
+    "test:e2e": "pnpm exec playwright test",
     "test:gold": "vitest run apps/api-server/__tests__/summary-golden.test.ts",
     "golden:update": "curl -s 'http://localhost:80/v1/summary?org=1&limit=10' > testdata/summary.golden.json"
   },

@@ -62,6 +62,9 @@ jobs:
       - name: ✅  Run Vitest suite
         run: pnpm test
 
+      - name: Playwright tests
+        run: pnpm exec playwright test
+
       # ────────────── security scanning ────────────────
       - name: 🔍 Trivy FS scan
         uses: aquasecurity/trivy-action@v0.22.0
