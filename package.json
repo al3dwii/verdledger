@@ -9,6 +9,7 @@
     "lint": "turbo run lint",
     "test": "vitest run",
     "test:e2e": "pnpm exec playwright test",
+    "test:lighthouse": "node scripts/lighthouse.mjs",
     "test:gold": "vitest run apps/api-server/__tests__/summary-golden.test.ts",
     "golden:update": "curl -s 'http://localhost:80/v1/summary?org=1&limit=10' > testdata/summary.golden.json"
   },
@@ -19,6 +20,7 @@
     "tsup": "^8.0.0",
     "turbo": "^2.5.4",
     "vitest": "^1.5.1"
+    ,"lighthouse": "^10.2.0"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.3"

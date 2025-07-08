@@ -23,9 +23,11 @@ func Router() http.Handler {
 	r.Get("/v1/skus", listSKUs)
 	r.Post("/v1/events", postEvent)
 	r.Get("/v1/summary", getSummary)
-	r.Post("/webhook/stripe", stripeWebhook)
+       r.Post("/webhook/stripe", stripeWebhook)
 
-	return r
+       r.Mount("/", badgeRouter())
+
+       return r
 }
 
 // -------- /v1/skus ------------------------------------------

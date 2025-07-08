@@ -1,6 +1,7 @@
 # VerdLedger
-![stars](https://img.shields.io/github/stars/verdledger/verdledger)
-![CI](https://github.com/verdledger/verdledger/actions/workflows/action-ci.yml/badge.svg)
+![CI](https://github.com/verdledger/verdledger/actions/workflows/ci.yml/badge.svg)
+![Stars](https://verdledger.dev/badge/stars.svg)
+![License: MIT](https://img.shields.io/badge/license-MIT-green)
 ![release](https://github.com/verdledger/verdledger/actions/workflows/release.yml/badge.svg)
 ![nightly](https://github.com/verdledger/verdledger/actions/workflows/refresh.yml/badge.svg)
 ![sec-scan](https://github.com/verdledger/verdledger/actions/workflows/scan.yml/badge.svg)
@@ -86,3 +87,10 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 ```
 
 Carbon emission factors are sourced from the [Carbonifer open-data repo](https://github.com/carbonifer-open-data/carbonifer) (`v2025-02-15`).
+
+Use the dynamic badge in your README:
+
+```md
+![CO₂ avoided](https://api.verdledger.dev/badge/1.svg)
+```
+

@@ -1,0 +1,33 @@
+name: Star milestones
+
+on:
+  schedule: [{cron: "0 * * * *"}]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch stars
+        id: stars
+        run: |
+          curl -s https://api.github.com/repos/verdledger/verdledger \
+            | jq '.stargazers_count' > stars.txt
+          echo "count=$(cat stars.txt)" >> $GITHUB_OUTPUT
+
+      - name: Tweet milestone
+        if: ${{ steps.stars.outputs.count >= 100 && steps.stars.outputs.count % 100 == 0 }}
+        uses: ethomson/send-tweet-action@v1
+        with:
+          status: "🎉 VerdLedger just passed ${{ steps.stars.outputs.count }} stars! Join the climate-aware DevOps movement → https://verdledger.dev #oss #climate"
+
+      - name: Update badge JSON
+        run: |
+          jq '{schemaVersion:1,label:"Stars",message:"'"$(cat stars.txt)"'",color:"brightgreen"}' \
+            > site/public/badge/stars.json
+      - uses: EndBug/add-and-commit@v9
+        with:
+          message: "chore: update stars badge"
+          add: "site/public/badge/stars.json"
