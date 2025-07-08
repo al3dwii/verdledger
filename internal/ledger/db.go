@@ -6,10 +6,10 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-// DB is the global connection pool used by the API package.
+// DB is the global pgx connection pool.
 var DB *pgxpool.Pool
 
-// Connect initialises the pool once at startup.
+// Connect initialises DB once at startup.
 func Connect(ctx context.Context, url string) error {
 	pool, err := pgxpool.New(ctx, url)
 	if err != nil {

@@ -5,9 +5,10 @@ sql:
     schema:
       - migrations
     queries:
-      - internal/ledger/sql            # ← path to the placeholder file
+      - internal/ledger/queries      # <-- just this single folder
     gen:
       go:
         package: ledger
         out: internal/ledger
         emit_json_tags: true
+        emit_interface: false 
