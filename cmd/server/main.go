@@ -11,9 +11,13 @@ import (
 )
 
 func main() {
-	if err := ledger.Connect(context.Background(), os.Getenv("DATABASE_URL")); err != nil {
-		log.Fatal(err)
-	}
+       dsn := os.Getenv("DATABASE_URL")
+       if dsn == "" {
+               dsn = "postgres://postgres:postgres@localhost:54322/postgres"
+       }
+       if err := ledger.Connect(context.Background(), dsn); err != nil {
+               log.Fatal(err)
+       }
 	log.Println("⇨ API on :8080")
 	log.Fatal(http.ListenAndServe(":8080", api.Router()))
 }
