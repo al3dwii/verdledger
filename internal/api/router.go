@@ -26,7 +26,10 @@ func Router() http.Handler {
 	r.Post("/webhook/stripe", stripeWebhook)
 	r.With(middleware.RequireFlag("realtime_grid_optimizer")).Post("/v1/optimizer/suggest", optimizerSuggest)
 
-	return r
+
+       r.Mount("/", badgeRouter())
+
+       return r
 }
 
 // -------- /v1/skus ------------------------------------------

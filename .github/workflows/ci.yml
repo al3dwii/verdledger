@@ -58,12 +58,23 @@ jobs:
       - name: 🔨 Build TypeScript packages (Turbo)
         run: pnpm turbo run build
 
+      - name: Build marketing site
+        run: |
+          cd site && pnpm i && pnpm build
+          cd ..
+
       # ────────────── unit & golden tests ──────────────
       - name: ✅  Run Vitest suite
         run: pnpm test
 
       - name: Playwright tests
-        run: pnpm exec playwright test
+        run: |
+          cd site && pnpm start &
+          cd ..
+          pnpm exec playwright test
+
+      - name: Lighthouse check
+        run: pnpm run test:lighthouse
 
       # ────────────── security scanning ────────────────
       - name: 🔍 Trivy FS scan
