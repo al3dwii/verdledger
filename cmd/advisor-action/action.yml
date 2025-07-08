@@ -1,8 +1,38 @@
-name: VerdLedger IaC Advisor (alpha)
-runs:
-  using: docker
-  image: docker://ghcr.io/verdledger/advisor-action:v0.1.0
+name: VerdLedger IaC Advisor
+description: Scan a Terraform plan for carbon impact, comment results, and (optionally) push to VerdLedger.
+branding:
+  icon: leaf
+  color: green
+
 inputs:
   path:
-    description: "Path to plan JSON"
+    description: "Path to plan JSON (terraform show -json)"
     required: true
+  org:
+    description: "VerdLedger org ID (for --push)"
+    required: false
+  project:
+    description: "VerdLedger project ID (for --push)"
+    required: false
+  api-url:
+    description: "VerdLedger API base URL"
+    required: false
+    default: "https://api.verdledger.dev"
+  api-key:
+    description: "Bearer token for the API (header: Authorization)"
+    required: false
+  push:
+    description: "true to send events to VerdLedger"
+    required: false
+    default: "false"
+
+runs:
+  using: "docker"
+  image: "ghcr.io/verdledger/verdledger-action:v0.1.0"
+  args:
+    - scan
+    - ${{ inputs.path }}
+    - "--org=${{ inputs.org }}"
+    - "--project=${{ inputs.project }}"
+    - "--api=${{ inputs.api-url }}"
+    - ${{ inputs.push == 'true' && '--push' || '' }}
