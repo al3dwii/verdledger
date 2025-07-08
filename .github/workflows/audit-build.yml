@@ -1,0 +1,15 @@
+name: audit-build
+on:
+  push:
+    paths:
+      - 'plugins/audit/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+      - run: cd plugins/audit && go build ./...
