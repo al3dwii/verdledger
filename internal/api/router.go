@@ -10,13 +10,16 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	stripe "github.com/stripe/stripe-go/v76"
+	"github.com/verdledger/verdledger/internal/api/middleware"
 	"github.com/verdledger/verdledger/internal/ledger"
 )
 
 // Router builds the API handle tree.
 func Router() http.Handler {
 	r := chi.NewRouter()
+	r.Use(middleware.JWT)
 
+	r.Get("/api/me", getMe)
 	r.Get("/v1/skus", listSKUs)
 	r.Post("/v1/events", postEvent)
 	r.Get("/v1/summary", getSummary)
@@ -146,4 +149,37 @@ func stripeWebhook(w http.ResponseWriter, r *http.Request) {
 		// mark as past_due …
 	}
 	w.WriteHeader(http.StatusOK)
+}
+
+// -------- /api/me -------------------------------------------
+func getMe(w http.ResponseWriter, r *http.Request) {
+	uid, _ := r.Context().Value(middleware.CtxUID).(string)
+	rows, err := ledger.DB.Query(r.Context(), `
+        select o.id, o.name, coalesce(s.status,'') as plan, cu.role
+        from public.org o
+        join public.org_user cu on cu.org_id = o.id
+        left join billing.org_subscription s on s.org_id = o.id
+        where cu.user_id = $1
+        `, uid)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	type Org struct {
+		ID   int64  `json:"id"`
+		Name string `json:"name"`
+		Plan string `json:"plan"`
+		Role string `json:"role"`
+	}
+	var out struct {
+		UserID string `json:"user_id"`
+		Orgs   []Org  `json:"orgs"`
+	}
+	out.UserID = uid
+	for rows.Next() {
+		var o Org
+		_ = rows.Scan(&o.ID, &o.Name, &o.Plan, &o.Role)
+		out.Orgs = append(out.Orgs, o)
+	}
+	_ = json.NewEncoder(w).Encode(out)
 }
