@@ -20,6 +20,7 @@ func cmdScan() *cobra.Command {
 		project int64
 		push    bool
 		apiURL  string
+		token   string
 		comment bool
 		ghToken string
 		prID    int
@@ -58,7 +59,7 @@ func cmdScan() *cobra.Command {
 			}
 
 			if push {
-				return pushEvents(apiURL, org, project, results)
+				return pushEvents(apiURL, token, org, project, results)
 			}
 			return nil
 		},
@@ -68,13 +69,14 @@ func cmdScan() *cobra.Command {
 	c.Flags().Int64Var(&project, "project", 0, "Project ID when pushing")
 	c.Flags().BoolVar(&push, "push", false, "Send results to VerdLedger API")
 	c.Flags().StringVar(&apiURL, "api", "http://localhost:8080", "API base URL")
+	c.Flags().StringVar(&token, "token", os.Getenv("VERDLEDGER_TOKEN"), "Bearer token")
 	c.Flags().BoolVar(&comment, "comment", false, "Comment results on GitHub PR")
 	c.Flags().StringVar(&ghToken, "github-token", os.Getenv("GITHUB_TOKEN"), "GitHub token")
 	c.Flags().IntVar(&prID, "pr", 0, "Pull-request number for comment")
 	return c
 }
 
-func pushEvents(api string, org, project int64, results []carbon.Result) error {
+func pushEvents(api, token string, org, project int64, results []carbon.Result) error {
 	for _, r := range results {
 		body, _ := json.Marshal(map[string]any{
 			"org_id":     org,
@@ -87,9 +89,13 @@ func pushEvents(api string, org, project int64, results []carbon.Result) error {
 			"kg":         r.KgAnnual,
 			"note":       "cli scan",
 		})
-		resp, err := http.Post(api+"/v1/events",
-			"application/json", io.NopCloser(
-				bytes.NewReader(body)))
+		req, _ := http.NewRequest("POST", api+"/v1/events",
+			io.NopCloser(bytes.NewReader(body)))
+		req.Header.Set("Content-Type", "application/json")
+		if token != "" {
+			req.Header.Set("Authorization", "Bearer "+token)
+		}
+		resp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			return err
 		}
