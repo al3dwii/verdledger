@@ -25,6 +25,18 @@ npx verdledger init
 
 ![init demo](docs/init.gif)
 
+### Install
+
+#### macOS / Linux
+
+```sh
+brew install verdledger/verdledger/verdledger
+```
+
+#### Windows
+
+Download the zip from the [Releases](https://github.com/<user>/verdledger/releases) page or use `scoop`.
+
 ### IaC Advisor GitHub Action
 
 Use this action to comment CO₂ and cost savings on Terraform pull requests.
@@ -63,3 +75,5 @@ Then visit `http://localhost:4000/health` to verify the server is running.
 
 The frontend reads `NEXT_PUBLIC_API_URL` from `.env.local` to know where to
 fetch data. In production this is `https://api.verdledger.dev`.
+
+Carbon emission factors are sourced from the [Carbonifer open-data repo](https://github.com/carbonifer-open-data/carbonifer) (`v2025-02-15`).

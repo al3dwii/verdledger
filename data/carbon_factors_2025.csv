@@ -1,0 +1,6 @@
+provider,region,kg_per_kwh,updated_at
+aws,us-east-1,0.442,2025-02-15
+aws,us-west-2,0.409,2025-02-15
+aws,eu-west-1,0.220,2025-02-15
+gcp,europe-west1,0.210,2025-02-15
+azure,uksouth,0.205,2025-02-15

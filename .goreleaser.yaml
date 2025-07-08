@@ -1,0 +1,46 @@
+project_name: verdledger
+builds:
+  - id: cli
+    main: ./cmd/cli
+    binary: verdledger
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    ldflags: -s -w
+  - id: api
+    main: ./cmd/server
+    binary: verdledger-api
+    goos: [linux]
+    goarch: [amd64, arm64]
+archives:
+  - id: default
+    builds: [cli]
+    format_overrides:
+      - goos: windows
+        format: zip
+    replacements:
+      darwin: macOS
+      linux: Linux
+      windows: Windows
+brews:
+  - tap:
+      owner: verdledger
+      name: homebrew-verdledger
+    commit_author:
+      name: VerdLedger Bot
+      email: bot@verdledger.dev
+    folder: Formula
+    homepage: "https://github.com/{{ .Repo.Owner }}/{{ .ProjectName }}"
+    description: "CLI for VerdLedger – carbon-aware IaC"
+    test: |
+      system "#{bin}/verdledger", "scan", "--help"
+    install: |
+      bin.install "verdledger"
+dockers:
+  - image_templates:
+      - ghcr.io/{{ .Repo.Owner }}/verdledger-api:{{ .Version }}
+    use: buildx
+    dockerfile: Dockerfile.api
+release:
+  github:
+    draft: false
+    prerelease: false
