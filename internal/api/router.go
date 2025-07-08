@@ -24,6 +24,7 @@ func Router() http.Handler {
 	r.Post("/v1/events", postEvent)
 	r.Get("/v1/summary", getSummary)
 	r.Post("/webhook/stripe", stripeWebhook)
+	r.With(middleware.RequireFlag("realtime_grid_optimizer")).Post("/v1/optimizer/suggest", optimizerSuggest)
 
 	return r
 }
@@ -182,4 +183,10 @@ func getMe(w http.ResponseWriter, r *http.Request) {
 		out.Orgs = append(out.Orgs, o)
 	}
 	_ = json.NewEncoder(w).Encode(out)
+}
+
+// -------- /v1/optimizer/suggest -------------------------------
+func optimizerSuggest(w http.ResponseWriter, r *http.Request) {
+	// proxy request to optimizer plugin (stub)
+	http.Error(w, "optimizer unavailable", http.StatusServiceUnavailable)
 }
