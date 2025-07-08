@@ -12,10 +12,11 @@ var root = &cobra.Command{
 }
 
 func main() {
-       root.AddCommand(cmdScan())
-       root.AddCommand(cmdOptimize())
-       root.AddCommand(cmdReport())
-       if err := root.Execute(); err != nil {
-               os.Exit(1)
-       }
+	root.AddCommand(cmdScan())
+	root.AddCommand(cmdOptimize())
+	root.AddCommand(cmdReport())
+	root.AddCommand(cmdAdvise())
+	if err := root.Execute(); err != nil {
+		os.Exit(1)
+	}
 }

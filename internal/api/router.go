@@ -25,14 +25,15 @@ func Router() http.Handler {
 	r.Get("/v1/summary", getSummary)
 	r.Post("/webhook/stripe", stripeWebhook)
 
-       r.With(middleware.RequireFlag("realtime_grid_optimizer")).Post("/v1/optimizer/suggest", optimizerSuggest)
+	r.With(middleware.RequireFlag("realtime_grid_optimizer")).Post("/v1/optimizer/suggest", optimizerSuggest)
 
-       r.With(middleware.RequireFlag("audit_pdf_exporter")).Mount("/v1/audit/", auditProxy())
+	r.With(middleware.RequireFlag("finops_greenops_advisor")).Post("/v1/advisor/advise", advisorAdvise)
 
+	r.With(middleware.RequireFlag("audit_pdf_exporter")).Mount("/v1/audit/", auditProxy())
 
-       r.Mount("/", badgeRouter())
+	r.Mount("/", badgeRouter())
 
-       return r
+	return r
 }
 
 // -------- /v1/skus ------------------------------------------
@@ -193,29 +194,35 @@ func getMe(w http.ResponseWriter, r *http.Request) {
 
 // -------- /v1/optimizer/suggest -------------------------------
 func optimizerSuggest(w http.ResponseWriter, r *http.Request) {
-        // proxy request to optimizer plugin (stub)
-        http.Error(w, "optimizer unavailable", http.StatusServiceUnavailable)
+	// proxy request to optimizer plugin (stub)
+	http.Error(w, "optimizer unavailable", http.StatusServiceUnavailable)
+}
+
+// -------- /v1/advisor/advise -------------------------------
+func advisorAdvise(w http.ResponseWriter, r *http.Request) {
+	// proxy to advisor plugin (stub)
+	http.Error(w, "advisor unavailable", http.StatusServiceUnavailable)
 }
 
 // -------- /v1/audit/* proxy -------------------------------
 func auditProxy() http.Handler {
-       return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-               // very small proxy to audit service at http://audit:8080
-               url := "http://audit:8080" + r.URL.Path
-               req, _ := http.NewRequest(r.Method, url, r.Body)
-               req.Header = r.Header
-               resp, err := http.DefaultClient.Do(req)
-               if err != nil {
-                       http.Error(w, err.Error(), 502)
-                       return
-               }
-               defer resp.Body.Close()
-               for k, vv := range resp.Header {
-                       for _, v := range vv {
-                               w.Header().Add(k, v)
-                       }
-               }
-               w.WriteHeader(resp.StatusCode)
-               io.Copy(w, resp.Body)
-       })
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// very small proxy to audit service at http://audit:8080
+		url := "http://audit:8080" + r.URL.Path
+		req, _ := http.NewRequest(r.Method, url, r.Body)
+		req.Header = r.Header
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			http.Error(w, err.Error(), 502)
+			return
+		}
+		defer resp.Body.Close()
+		for k, vv := range resp.Header {
+			for _, v := range vv {
+				w.Header().Add(k, v)
+			}
+		}
+		w.WriteHeader(resp.StatusCode)
+		io.Copy(w, resp.Body)
+	})
 }

@@ -20,6 +20,7 @@ supabase start && pnpm ws run gen:db && pnpm --filter ./apps/api-server dev
 This repository currently includes the database schema defined via Supabase. More features will be added over time including REST endpoints, a CLI, GitHub actions and a dashboard.
 
 Pro plans now include **Compliance PDF & XBRL export (beta)** for regulatory reporting.
+Pro plans also ship with **FinOps + GreenOps advisor (beta)** to pick the best $/kg CO₂ option.
 
 ### 💚 One-line install
 
