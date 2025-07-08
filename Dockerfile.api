@@ -1,3 +1,4 @@
 FROM gcr.io/distroless/static-debian11
 COPY verdledger-api /verdledger-api
+ENV STRIPE_WEBHOOK_SECRET=$STRIPE_WEBHOOK_SECRET
 ENTRYPOINT ["/verdledger-api"]
