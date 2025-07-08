@@ -1,0 +1,20 @@
+syntax = "proto3";
+package optimizer.v1;
+
+service Scheduler {
+  rpc Suggest (SuggestRequest) returns (SuggestReply);
+}
+
+message SuggestRequest {
+  string cloud = 1;
+  string current_region = 2;
+  repeated string candidate_regions = 3;
+  uint32 runtime_hours = 4;
+}
+
+message SuggestReply {
+  string best_region = 1;
+  string start_iso = 2;
+  double kg_saved = 3;
+  double kg_baseline = 4;
+}
