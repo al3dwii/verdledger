@@ -36,16 +36,24 @@ type Org struct {
 }
 
 type SavingsEvent struct {
-	ID     uuid.UUID      `json:"id"`
-	OrgID  sql.NullInt64  `json:"org_id"`
-	Ts     time.Time      `json:"ts"`
-	Cloud  sql.NullString `json:"cloud"`
-	Region sql.NullString `json:"region"`
-	Sku    sql.NullString `json:"sku"`
-	Kwh    sql.NullString `json:"kwh"`
-	Usd    sql.NullString `json:"usd"`
-	Kg     sql.NullString `json:"kg"`
-	Note   sql.NullString `json:"note"`
+        ID     uuid.UUID      `json:"id"`
+        OrgID  sql.NullInt64  `json:"org_id"`
+        ProjectID sql.NullInt64 `json:"project_id"`
+        Ts     time.Time      `json:"ts"`
+        Cloud  sql.NullString `json:"cloud"`
+        Region sql.NullString `json:"region"`
+        Sku    sql.NullString `json:"sku"`
+        Kwh    sql.NullString `json:"kwh"`
+        Usd    sql.NullString `json:"usd"`
+        Kg     sql.NullString `json:"kg"`
+        Note   sql.NullString `json:"note"`
+}
+
+type Project struct {
+        ID        int64     `json:"id"`
+        OrgID     int64     `json:"org_id"`
+        Name      string    `json:"name"`
+        CreatedAt time.Time `json:"created_at"`
 }
 
 type SkuCatalogue struct {
