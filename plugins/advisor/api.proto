@@ -1,0 +1,11 @@
+syntax = "proto3";
+package advisor.v1;
+
+service Advisor {
+  rpc Advise (AdviseRequest) returns (AdviseReply);
+}
+
+message AdviseRequest { repeated Resource resources = 1; }
+message Resource { string cloud = 1; string region = 2; string sku = 3; }
+message Alt { string alt_sku = 1; double usd_current = 2; double usd_alt = 3; double kg_current = 4; double kg_alt = 5; double usd_per_kg = 6; }
+message AdviseReply { repeated Alt alts = 1; }

@@ -1,0 +1,3 @@
+cloud,region,sku,usd_hour
+aws,us-east-1,t3.medium,0.0416
+aws,us-east-1,t3a.medium,0.0376
