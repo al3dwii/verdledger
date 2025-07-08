@@ -76,4 +76,13 @@ Then visit `http://localhost:4000/health` to verify the server is running.
 The frontend reads `NEXT_PUBLIC_API_URL` from `.env.local` to know where to
 fetch data. In production this is `https://api.verdledger.dev`.
 
+For billing integration set these env vars in Vercel and Supabase:
+
+```
+STRIPE_SECRET_KEY
+STRIPE_WEBHOOK_SECRET
+STRIPE_PRICE_ID
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+```
+
 Carbon emission factors are sourced from the [Carbonifer open-data repo](https://github.com/carbonifer-open-data/carbonifer) (`v2025-02-15`).

@@ -1,0 +1,2 @@
+[functions.sendDigest]
+  schedule = "0 17 * * 5"
