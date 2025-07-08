@@ -1,0 +1,8 @@
+name: VerdLedger IaC Advisor (alpha)
+runs:
+  using: docker
+  image: docker://ghcr.io/verdledger/advisor-action:v0.1.0
+inputs:
+  path:
+    description: "Path to plan JSON"
+    required: true
