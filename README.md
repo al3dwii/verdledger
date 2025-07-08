@@ -7,6 +7,7 @@
 ![sec-scan](https://github.com/verdledger/verdledger/actions/workflows/scan.yml/badge.svg)
 ![docker](https://img.shields.io/docker/pulls/verdledger/verdledger)
 ![version](https://img.shields.io/github/v/release/verdledger/verdledger)
+![Audit exporter](https://verdledger.dev/badge/audit.svg)
 
 VerdLedger is a "Ledger-as-a-Service" platform for tracking carbon savings from infrastructure changes.
 See [docs/cli.md](docs/cli.md) for the Go-based CLI tool.
@@ -17,6 +18,8 @@ supabase start && pnpm ws run gen:db && pnpm --filter ./apps/api-server dev
 ```
 
 This repository currently includes the database schema defined via Supabase. More features will be added over time including REST endpoints, a CLI, GitHub actions and a dashboard.
+
+Pro plans now include **Compliance PDF & XBRL export (beta)** for regulatory reporting.
 
 ### 💚 One-line install
 

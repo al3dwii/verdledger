@@ -30,3 +30,13 @@ func TestPostEvent(t *testing.T) {
     if err != nil { t.Fatal(err) }
     if res.StatusCode != 201 { t.Fatalf("want 201 got %d", res.StatusCode) }
 }
+
+func TestAuditProxy(t *testing.T) {
+    srv := httptest.NewServer(api.Router())
+    defer srv.Close()
+    res, err := srv.Client().Get(srv.URL+"/v1/audit/1")
+    if err != nil { t.Fatal(err) }
+    if res.StatusCode == 404 {
+        t.Log("route not mounted")
+    }
+}

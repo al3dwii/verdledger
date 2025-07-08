@@ -5,3 +5,6 @@ services:
     ports: ["54322:5432"]
     environment:
       POSTGRES_PASSWORD: postgres
+  audit:
+    build: ./plugins/audit
+    ports: ["8081:8080"]
