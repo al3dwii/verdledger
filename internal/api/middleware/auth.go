@@ -23,7 +23,15 @@ func getEnv(k, def string) string {
 	return def
 }
 
+
+
 func JWT(next http.Handler) http.Handler {
+
+	// NEW: allow opt-out in dev
+	if os.Getenv("PUBLIC_MODE") == "true" {
+		return next
+	}
+	
 	secret := []byte(getEnv("SUPABASE_JWT_SECRET", ""))
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

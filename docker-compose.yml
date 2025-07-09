@@ -6,14 +6,22 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
 
-
-
   api:
-    image: ghcr.io/verdledger/verdledger-api:latest
-    depends_on: [db]
+    build: ./cmd/server           # build locally
     environment:
-      DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
+      PUBLIC_MODE: "true"
+      DATABASE_URL: postgres://postgres:postgres@db:5432/postgres?sslmode=disable
     ports: ["8080:8080"]
+    depends_on: [db]
+
+  # api:
+  #   image: ghcr.io/verdledger/verdledger-api:latest
+  #   depends_on: [db]
+  #   environment:
+  #     DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
+  #     VDL_PUBLIC_MODE: "true"     # ← add this line
+
+  #   ports: ["8080:8080"]
 
   optimizer:
     image: ghcr.io/verdledger/verdledger-optimizer:latest

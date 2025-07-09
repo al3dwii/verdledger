@@ -14,6 +14,8 @@ MIGRATE := migrate -path db/migrations -database $(DB_URL) -verbose
 # ------------------------------------------------------------------
 dev: db-up ## start db + live API
 	go run ./cmd/server
+	VDL_PUBLIC_MODE=true \
+
 
 test: ## run Go tests
 	go test ./... -v
@@ -49,6 +51,5 @@ migrate-down: ## roll back last migration
 	$(MIGRATE) down 1
 
 seed: ## load SKU seed data
-	psql $(DB_URL) -f packages/supabase-db/seed/003_seed_sku.sql
 	psql $(DB_URL) -c "\copy public.sku_catalogue FROM 'packages/supabase-db/seed/sku_min.csv' CSV HEADER"
 	@echo "✓ seed data loaded"
