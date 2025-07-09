@@ -20,7 +20,7 @@ jobs:
         run: |
           git config --global user.email "bot@verdledger.dev"
           git config --global user.name  "VerdLedger Bot"
-      - uses: goreleaser/goreleaser-action@v5
+      - uses: goreleaser/goreleaser-action@v6
         with:
           version: latest
           args: release --clean
