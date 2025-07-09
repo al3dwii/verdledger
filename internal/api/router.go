@@ -24,6 +24,8 @@ func Router() http.Handler {
 	r.Post("/v1/events", postEvent)
 	r.Get("/v1/summary", getSummary)
 	r.Post("/webhook/stripe", stripeWebhook)
+	r.Post("/webhook/stripe", StripeWebhook)
+
 
 	r.With(middleware.RequireFlag("realtime_grid_optimizer")).Post("/v1/optimizer/suggest", optimizerSuggest)
 

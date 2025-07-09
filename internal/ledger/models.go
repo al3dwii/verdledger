@@ -6,11 +6,56 @@ package ledger
 
 import (
 	"database/sql"
+	"database/sql/driver"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/sqlc-dev/pqtype"
 )
+
+type RoleEnum string
+
+const (
+	RoleEnumOwner  RoleEnum = "owner"
+	RoleEnumAdmin  RoleEnum = "admin"
+	RoleEnumMember RoleEnum = "member"
+)
+
+func (e *RoleEnum) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = RoleEnum(s)
+	case string:
+		*e = RoleEnum(s)
+	default:
+		return fmt.Errorf("unsupported scan type for RoleEnum: %T", src)
+	}
+	return nil
+}
+
+type NullRoleEnum struct {
+	RoleEnum RoleEnum `json:"role_enum"`
+	Valid    bool     `json:"valid"` // Valid is true if RoleEnum is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullRoleEnum) Scan(value interface{}) error {
+	if value == nil {
+		ns.RoleEnum, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.RoleEnum.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullRoleEnum) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.RoleEnum), nil
+}
 
 type ActivityLog struct {
 	ID      uuid.UUID             `json:"id"`
@@ -21,6 +66,27 @@ type ActivityLog struct {
 	Meta    pqtype.NullRawMessage `json:"meta"`
 }
 
+type AdvisorAlt struct {
+	RunID      int64          `json:"run_id"`
+	CurrentSku string         `json:"current_sku"`
+	AltSku     string         `json:"alt_sku"`
+	Cloud      sql.NullString `json:"cloud"`
+	Region     sql.NullString `json:"region"`
+	UsdCurrent sql.NullString `json:"usd_current"`
+	UsdAlt     sql.NullString `json:"usd_alt"`
+	KgCurrent  sql.NullString `json:"kg_current"`
+	KgAlt      sql.NullString `json:"kg_alt"`
+	UsdPerKg   sql.NullString `json:"usd_per_kg"`
+}
+
+type AdvisorRun struct {
+	ID        int64          `json:"id"`
+	OrgID     sql.NullInt64  `json:"org_id"`
+	ProjectID sql.NullInt64  `json:"project_id"`
+	Ts        sql.NullTime   `json:"ts"`
+	Note      sql.NullString `json:"note"`
+}
+
 type ApiKey struct {
 	ID        uuid.UUID      `json:"id"`
 	OrgID     sql.NullInt64  `json:"org_id"`
@@ -29,31 +95,96 @@ type ApiKey struct {
 	CreatedAt time.Time      `json:"created_at"`
 }
 
+type AuditFile struct {
+	ID        int64          `json:"id"`
+	RequestID sql.NullInt64  `json:"request_id"`
+	FileType  sql.NullString `json:"file_type"`
+	S3Url     sql.NullString `json:"s3_url"`
+	SizeBytes sql.NullInt64  `json:"size_bytes"`
+	CreatedAt sql.NullTime   `json:"created_at"`
+}
+
+type AuditRequest struct {
+	ID          int64          `json:"id"`
+	OrgID       sql.NullInt64  `json:"org_id"`
+	PeriodStart sql.NullTime   `json:"period_start"`
+	PeriodEnd   sql.NullTime   `json:"period_end"`
+	Status      sql.NullString `json:"status"`
+	CreatedAt   sql.NullTime   `json:"created_at"`
+}
+
+type BillingOrgSubscription struct {
+	OrgID                int64          `json:"org_id"`
+	StripeCustomerID     sql.NullString `json:"stripe_customer_id"`
+	StripeSubscriptionID sql.NullString `json:"stripe_subscription_id"`
+	CurrentPeriodEnd     sql.NullTime   `json:"current_period_end"`
+	Status               sql.NullString `json:"status"`
+}
+
+type CurrentUserOrg struct {
+	UserID interface{} `json:"user_id"`
+	OrgID  int64       `json:"org_id"`
+	Role   RoleEnum    `json:"role"`
+}
+
+type FeatureFlag struct {
+	Name    string       `json:"name"`
+	Enabled sql.NullBool `json:"enabled"`
+}
+
+type OptimizerJob struct {
+	ID        int64                 `json:"id"`
+	OrgID     sql.NullInt64         `json:"org_id"`
+	ProjectID sql.NullInt64         `json:"project_id"`
+	Cloud     sql.NullString        `json:"cloud"`
+	Resources pqtype.NullRawMessage `json:"resources"`
+	CreatedAt sql.NullTime          `json:"created_at"`
+	Status    sql.NullString        `json:"status"`
+}
+
+type OptimizerRun struct {
+	ID          int64          `json:"id"`
+	JobID       sql.NullInt64  `json:"job_id"`
+	ScheduledTs sql.NullTime   `json:"scheduled_ts"`
+	FromRegion  sql.NullString `json:"from_region"`
+	ToRegion    sql.NullString `json:"to_region"`
+	KgDelta     sql.NullString `json:"kg_delta"`
+	UsdDelta    sql.NullString `json:"usd_delta"`
+	Recommended sql.NullBool   `json:"recommended"`
+	CreatedAt   sql.NullTime   `json:"created_at"`
+}
+
 type Org struct {
 	ID        int64     `json:"id"`
 	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
-type SavingsEvent struct {
-        ID     uuid.UUID      `json:"id"`
-        OrgID  sql.NullInt64  `json:"org_id"`
-        ProjectID sql.NullInt64 `json:"project_id"`
-        Ts     time.Time      `json:"ts"`
-        Cloud  sql.NullString `json:"cloud"`
-        Region sql.NullString `json:"region"`
-        Sku    sql.NullString `json:"sku"`
-        Kwh    sql.NullString `json:"kwh"`
-        Usd    sql.NullString `json:"usd"`
-        Kg     sql.NullString `json:"kg"`
-        Note   sql.NullString `json:"note"`
+type OrgUser struct {
+	UserID uuid.UUID `json:"user_id"`
+	OrgID  int64     `json:"org_id"`
+	Role   RoleEnum  `json:"role"`
 }
 
 type Project struct {
-        ID        int64     `json:"id"`
-        OrgID     int64     `json:"org_id"`
-        Name      string    `json:"name"`
-        CreatedAt time.Time `json:"created_at"`
+	ID        int64         `json:"id"`
+	OrgID     sql.NullInt64 `json:"org_id"`
+	Name      string        `json:"name"`
+	CreatedAt time.Time     `json:"created_at"`
+}
+
+type SavingsEvent struct {
+	ID        uuid.UUID      `json:"id"`
+	OrgID     sql.NullInt64  `json:"org_id"`
+	Ts        time.Time      `json:"ts"`
+	Cloud     sql.NullString `json:"cloud"`
+	Region    sql.NullString `json:"region"`
+	Sku       sql.NullString `json:"sku"`
+	Kwh       sql.NullString `json:"kwh"`
+	Usd       sql.NullString `json:"usd"`
+	Kg        sql.NullString `json:"kg"`
+	Note      sql.NullString `json:"note"`
+	ProjectID sql.NullInt64  `json:"project_id"`
 }
 
 type SkuCatalogue struct {

@@ -1,0 +1,36 @@
+name: E2E smoke
+
+on:
+  pull_request:
+    paths: ["cmd/**","internal/**","plugins/**"]
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: supabase/postgres:15
+        ports: ["54322:5432"]
+        env:
+          POSTGRES_PASSWORD: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version: '1.24' }
+
+      - name: Init DB + migrations
+        run: |
+          psql postgresql://postgres:postgres@localhost:54322 -f scripts/db-smoke.sql
+
+      - name: Build CLI
+        run: go build -o bin/verdledger ./cmd/cli
+
+      - name: Run scan → optimize → report → advise
+        run: |
+          ./bin/verdledger scan testdata/plan.json
+          ./bin/verdledger optimize testdata/plan.json --runtime 1
+          ./bin/verdledger report --start 2025-01-01 --end 2025-01-15
+          ./bin/verdledger advise testdata/plan.json
+
+      - name: Run Go tests
+        run: go test ./...

@@ -5,6 +5,22 @@ services:
     ports: ["54322:5432"]
     environment:
       POSTGRES_PASSWORD: postgres
+
+  api:
+    image: ghcr.io/verdledger/verdledger-api:latest
+    depends_on: [db]
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
+    ports: ["8080:8080"]
+
+  optimizer:
+    image: ghcr.io/verdledger/verdledger-optimizer:latest
+    depends_on: [api]
+
   audit:
-    build: ./plugins/audit
-    ports: ["8081:8080"]
+    image: ghcr.io/verdledger/verdledger-audit:latest
+    depends_on: [api]
+
+  advisor:
+    image: ghcr.io/verdledger/verdledger-advisor:latest
+    depends_on: [api]

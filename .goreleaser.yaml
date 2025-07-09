@@ -1,4 +1,9 @@
 project_name: verdledger
+release:
+  github:
+    draft: false
+    prerelease: false
+
 builds:
   - id: cli
     main: ./cmd/cli
@@ -11,36 +16,37 @@ builds:
     binary: verdledger-api
     goos: [linux]
     goarch: [amd64, arm64]
+  - id: advisor-action
+    main: ./cmd/advisor-action
+    binary: verdledger-action
+    goos: [linux]
+    goarch: [amd64]
+
 archives:
   - id: default
     builds: [cli]
     format_overrides:
       - goos: windows
         format: zip
-    replacements:
-      darwin: macOS
-      linux: Linux
-      windows: Windows
+
 brews:
   - tap:
       owner: verdledger
       name: homebrew-verdledger
-    commit_author:
-      name: VerdLedger Bot
-      email: bot@verdledger.dev
     folder: Formula
-    homepage: "https://github.com/{{ .Repo.Owner }}/{{ .ProjectName }}"
-    description: "CLI for VerdLedger – carbon-aware IaC"
-    test: |
-      system "#{bin}/verdledger", "scan", "--help"
+    description: "VerdLedger CLI – carbon+cost tooling"
     install: |
       bin.install "verdledger"
+
 dockers:
   - image_templates:
       - ghcr.io/{{ .Repo.Owner }}/verdledger-api:{{ .Version }}
+    builds: [api]
     use: buildx
-    dockerfile: Dockerfile.api
-release:
-  github:
-    draft: false
-    prerelease: false
+  - image_templates:
+      - ghcr.io/{{ .Repo.Owner }}/verdledger-action:{{ .Version }}
+    builds: [advisor-action]
+    use: buildx
+
+checksum:
+  name_template: 'checksums.txt'
