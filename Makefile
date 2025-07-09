@@ -1,32 +1,54 @@
-dev:	## start db + api
-	docker compose up -d db
+# ──────────────────────────────────────────────────────────────
+# VerdLedger — Dev helpers
+# ──────────────────────────────────────────────────────────────
+
+# ------------------------------------------------------------------
+# Configuration
+# ------------------------------------------------------------------
+DB_URL ?= postgres://postgres:postgres@localhost:54322/postgres?sslmode=disable
+
+MIGRATE := migrate -path db/migrations -database $(DB_URL) -verbose
+
+# ------------------------------------------------------------------
+# Quick targets
+# ------------------------------------------------------------------
+dev: db-up ## start db + live API
 	go run ./cmd/server
 
-test:	## run Go tests
+test: ## run Go tests
 	go test ./... -v
 
-cli:	## build static CLI binary
+cli: ## build static CLI binary
 	go build -o bin/verdledger ./cmd/cli
 
-scan: cli	## example scan run
+scan: cli ## example scan run
 	./bin/verdledger scan testdata/plan.json
 
-DB_URL := postgres://postgres:postgres@localhost:54322/postgres
+# ------------------------------------------------------------------
+# Database helpers
+# ------------------------------------------------------------------
+.PHONY: db-up db-down db-reset migrate-up migrate-down seed
 
-.PHONY: db-up db-down migrate seed
-
-db-up:
+db-up:      ## start Postgres only
 	docker compose up -d db
 
-db-down:
+db-down:    ## stop & remove containers
 	docker compose down
 
-migrate:
-	psql $(DB_URL) -f migrations/0001_init.sql
-	psql $(DB_URL) -f migrations/20250627000100_digest_view.sql
-	@echo "migrations applied"
+db-reset:
+	docker compose down -v
+	docker compose up -d db
+	# Drop everything in case a partial schema survived
+	$(MIGRATE) drop -f          # <- irreversible, deletes all objects
+	$(MIGRATE) up               # fresh apply
 
-seed:
+migrate-up: ## apply newest migrations
+	$(MIGRATE) up
+
+migrate-down: ## roll back last migration
+	$(MIGRATE) down 1
+
+seed: ## load SKU seed data
 	psql $(DB_URL) -f packages/supabase-db/seed/003_seed_sku.sql
 	psql $(DB_URL) -c "\copy public.sku_catalogue FROM 'packages/supabase-db/seed/sku_min.csv' CSV HEADER"
-	@echo "seed data loaded"
+	@echo "✓ seed data loaded"
