@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-//go:embed data/carbon_factors_2025.csv
+//go:embed assets/carbon_factors_2025.csv
 var csvBytes []byte
 
 // FactorLookup[provider][region] = kg / kWh
