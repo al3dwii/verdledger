@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
       - run: pnpm install --frozen-lockfile
       - run: node scripts/refresh-data.ts
       - uses: peter-evans/create-pull-request@v6
