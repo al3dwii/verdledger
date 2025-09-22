@@ -86,7 +86,7 @@ jobs:
 
       # ────────────── SBOM (SPDX) ────────────────
       - name: 📦  Generate SPDX SBOM
-        uses: anchore/sbom-action@v0.15.5
+        uses: anchore/sbom-action@v0.20.6
         with:
           format: spdx-json
           upload-artifact: false  # omit if you want it attached to the run
